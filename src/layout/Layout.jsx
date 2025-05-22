@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 function Layout({ children }) {
   return (
-    <div className="container mx-auto w-7xl">
+    <div className="container mx-auto w-[1300px]">
       <div>{<Header />}</div>
       <div>{children}</div>
       <div>{<Footer />}</div>

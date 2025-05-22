@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { deleteData, getData } from "../optimizatsiya";
 import { toast } from "sonner";
-import Masonry from "react-masonry-css";
 import Addimgs from "../components/Addimgs";
+import Masonry from "react-masonry-css";
 
 function Home() {
   let [data, setData] = useState([]);
-  function handleDelete(id) {
-    console.log(id);
-    
-    deleteData(id)
-      .then((res) => {
-        toast.success(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // function handleDelete(id) {
+  //   console.log(id);
+
+  //   deleteData(id)
+  //     .then((res) => {
+  //       toast.success(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
   useEffect(function () {
     getData()
       .then((res) => {
@@ -28,27 +28,44 @@ function Home() {
         toast.error(err.message);
       });
   }, []);
+  const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1,
+  };
   return (
     <div>
       <Addimgs />
+
       <Masonry
-        // breakpointCols={breakpoints}
-        className="my-masonry-grid flex"
-        columnClassName="my-masonry-grid_column"
+        breakpointCols={breakpointColumnsObj}
+        className="gap- flex-wrap flex"
+        // columnClassName="my-masonry-grid_column"
       >
         {data &&
           data.map((value) => {
             return (
-              <div key={value.id} className="relative">
-                <img src={value.img} alt="" />
-                <button
-                  onClick={(e) => {
-                    handleDelete(value.id);
-                  }}
-                  className="absolute top-1"
-                >
-                  deleted
-                </button>
+              <div
+                key={value.id}
+                className="group ml-5 cursor-pointer relative"
+              >
+                <div className="relative rounded-md">
+                  <img src={value.img} alt="" className="rounded-md" />
+                  {/* <button
+                    onClick={(e) => {
+                      handleDelete(value.id);
+                    }}
+                    className="absolute top-1"
+                  >
+                    deleted
+                  </button> */}
+                </div>
+                <div className="opacity-0 group-hover:opacity-100 bg-black/5 inset-0 absolute rounded-md">
+                  <button className="w-16 h-11 rounded-2xl bg-[#ef1751] hover:bg-[#BD001C] text-white absolute right-4 top-4">
+                    Save
+                  </button>
+                </div>
               </div>
             );
           })}

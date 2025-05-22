@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { supabase } from "../supabase/supabaseConfig"; // Supabase konfiguratsiyasi
+import { supabase } from "../supabase/supabaseConfig"; 
 import { toast } from "sonner";
 
 function Addimgs() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
-  const [description, setDescription] = useState(""); // Yangi holat
+  const [description, setDescription] = useState(""); 
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
@@ -49,7 +49,7 @@ function Addimgs() {
 
     const { error: insertError } = await supabase
       .from("imgs")
-      .insert([{ img: publicUrl, category:description }]); // description ham kiritildi
+      .insert([{ img: publicUrl, category:description }]); 
 
     if (insertError) {
       console.error("DBga yozishda xatolik:", insertError.message);
@@ -59,7 +59,7 @@ function Addimgs() {
     }
 
     setSelectedFile(null);
-    setDescription(""); // Tozalaymiz
+    setDescription(""); 
     setLoading(false);
   };
 
@@ -72,7 +72,6 @@ function Addimgs() {
         placeholder="Rasm tavsifi..."
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        rows={4}
         cols={50}
       />
       <br />
@@ -83,7 +82,7 @@ function Addimgs() {
       {imgUrl && (
         <div>
           <p>Yuklangan rasm:</p>
-          <img src={imgUrl} alt="Uploaded" width="200" />
+          <img src={imgUrl} alt="Uploaded" />
         </div>
       )}
     </div>
