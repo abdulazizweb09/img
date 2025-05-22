@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getData } from "../optimizatsiya";
+import { deleteData, getData } from "../optimizatsiya";
 import { toast } from "sonner";
 import Masonry from "react-masonry-css";
 import Addimgs from "../components/Addimgs";
 
 function Home() {
   let [data, setData] = useState([]);
+  function handleDelete(id) {
+    console.log(id);
+    
+    deleteData(id)
+      .then((res) => {
+        toast.success(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   useEffect(function () {
     getData()
       .then((res) => {
@@ -19,17 +30,25 @@ function Home() {
   }, []);
   return (
     <div>
-      <Addimgs/>
+      <Addimgs />
       <Masonry
         // breakpointCols={breakpoints}
-        className="my-masonry-grid"
+        className="my-masonry-grid flex"
         columnClassName="my-masonry-grid_column"
       >
         {data &&
           data.map((value) => {
             return (
-              <div>
+              <div key={value.id} className="relative">
                 <img src={value.img} alt="" />
+                <button
+                  onClick={(e) => {
+                    handleDelete(value.id);
+                  }}
+                  className="absolute top-1"
+                >
+                  deleted
+                </button>
               </div>
             );
           })}
