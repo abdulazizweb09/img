@@ -1,6 +1,21 @@
-import React from 'react'
+import { signOut } from "firebase/auth";
+import { remuv } from "../hooks/setUser";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase/firebaseConfig";
+import { toast } from "sonner";
 
 function Header() {
+  let dispatch = useDispatch();
+ async function handleRermove() {
+      try {
+        await signOut(auth);
+        dispatch(remuv());
+        toast.success("See you soon");
+      } catch (eror) {
+        toast.error(eror);
+      }
+  }
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
@@ -67,7 +82,7 @@ function Header() {
             <li>
               <a>Settings</a>
             </li>
-            <li>
+            <li onClick={handleRermove}>
               <a>Logout</a>
             </li>
           </ul>
@@ -77,4 +92,4 @@ function Header() {
   );
 }
 
-export default Header
+export default Header;
