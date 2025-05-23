@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { add, remuv, setloading } from "./hooks/setUser";
 import { toast } from "sonner";
+import Profile from "./page/Profile";
 
 function App() {
-  const { user, loading } = useSelector((state) => state.user);
+  let { user, loading } = useSelector((state) => state.user);
   let dispatch = useDispatch();
   let navigate = useNavigate();
   let auth = getAuth();
@@ -32,23 +33,21 @@ function App() {
   }, []);
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={
-            <Login />
-        }
-      />
-      <Route
-        path="/register"
-        element={
-            <Register />
-        }
-      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route
         path="/"
         element={
           <Layout>
             <Home />
+          </Layout>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <Layout>
+            <Profile />
           </Layout>
         }
       />

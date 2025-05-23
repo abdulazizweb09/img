@@ -1,20 +1,27 @@
 import { signOut } from "firebase/auth";
 import { remuv } from "../hooks/setUser";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../firebase/firebaseConfig";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   let dispatch = useDispatch();
- async function handleRermove() {
-      try {
-        await signOut(auth);
-        dispatch(remuv());
-        toast.success("See you soon");
-      } catch (eror) {
-        toast.error(eror);
-      }
+  let navigate = useNavigate();
+  let { user } = useSelector((state) => state.user);
+  console.log(user);
+  
+  async function handleRermove() {
+    try {
+      await signOut(auth);
+      dispatch(remuv());
+      toast.success("See you soon");
+    } catch (eror) {
+      toast.error(eror);
+    }
+  }
+  function handleProfile() {
+    navigate("/profile");
   }
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -63,17 +70,14 @@ function Header() {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
+              <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
             </div>
           </div>
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            <li>
+            <li onClick={handleProfile}>
               <a className="justify-between">
                 Profile
                 <span className="badge">New</span>

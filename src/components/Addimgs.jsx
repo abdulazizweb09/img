@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { supabase } from "../supabase/supabaseConfig"; 
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 function Addimgs() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
   const [description, setDescription] = useState(""); 
   const [loading, setLoading] = useState(false);
+  let { user } = useSelector((state) => state.user);
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -49,7 +51,9 @@ function Addimgs() {
 
     const { error: insertError } = await supabase
       .from("imgs")
-      .insert([{ img: publicUrl, category:description }]); 
+      .insert([
+        { img: publicUrl, category: description, userName: user.email },
+      ]); 
 
     if (insertError) {
       console.error("DBga yozishda xatolik:", insertError.message);
